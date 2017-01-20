@@ -1,9 +1,9 @@
 var React = require('react');
 
 var About = (props) => {
-	return (
+  return (
     <div>
-  		<h2 className="text-center">About</h2>
+      <h2 className="text-center">About</h2>
       <p>This is a weather application build on React.</p>
       <p>
         Tools I used:
@@ -17,7 +17,7 @@ var About = (props) => {
         </li>
       </ul>
     </div>
-	);
+  );
 };
 
 module.exports = About;
