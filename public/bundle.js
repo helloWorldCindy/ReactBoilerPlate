@@ -57,8 +57,8 @@
 
 	var Main = __webpack_require__(216);
 	var Weather = __webpack_require__(218);
-	var About = __webpack_require__(219);
-	var Example = __webpack_require__(220);
+	var About = __webpack_require__(221);
+	var Example = __webpack_require__(222);
 
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -24880,7 +24880,8 @@
 	var React = __webpack_require__(1);
 
 	var _require = __webpack_require__(159),
-	    Link = _require.Link;
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
 
 	var Nav = React.createClass({
 		displayName: 'Nav',
@@ -24895,19 +24896,19 @@
 					'Nav component'
 				),
 				React.createElement(
-					Link,
-					{ to: '/' },
+					IndexLink,
+					{ to: '/', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
 					'Get Weather'
 				),
 				React.createElement(
 					Link,
-					{ to: '/about' },
+					{ to: '/about', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
 					'About'
 				),
 				React.createElement(
 					Link,
-					{ to: '/example' },
-					'Example'
+					{ to: '/example', activeClassName: 'active', activeStyle: { fontWeight: 'bold' } },
+					'Examples'
 				)
 			);
 		}
@@ -24922,16 +24923,44 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Weather = __webpack_require__(218);
+	var WeatherForm = __webpack_require__(219);
+	var WeatherMessage = __webpack_require__(220);
 
 	var Weather = React.createClass({
 		displayName: 'Weather',
 
+		getInitialState: function getInitialState() {
+			return {
+				location: 'Ottawa',
+				temp: '-10'
+			};
+		},
+		handleSearch: function handleSearch(location) {
+			this.setState({
+				location: location,
+				temp: 23
+			});
+		},
+
 		render: function render() {
+			// this is important
+			// pull the values after you setState
+			var _state = this.state,
+			    location = _state.location,
+			    temp = _state.temp;
+
+			// pass location and temp to WeatherMessage component
+
 			return React.createElement(
-				'h3',
+				'div',
 				null,
-				'Weather Component'
+				React.createElement(
+					'h3',
+					null,
+					'Weather Component'
+				),
+				React.createElement(WeatherForm, { onSearch: this.handleSearch }),
+				React.createElement(WeatherMessage, { temp: temp, location: location })
 			);
 		}
 	});
@@ -24945,7 +24974,79 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var About = __webpack_require__(219);
+
+	var WeatherForm = React.createClass({
+		displayName: 'WeatherForm',
+
+		onFormSubmit: function onFormSubmit(e) {
+			e.preventDefault();
+
+			var location = this.refs.location.value;
+
+			if (location.length > 0) {
+				this.refs.location.value = '';
+				this.props.onSearch(location);
+			}
+		},
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'form',
+					{ onSubmit: this.onFormSubmit },
+					React.createElement('input', { type: 'text', ref: 'location' }),
+					React.createElement(
+						'button',
+						null,
+						'Get Weather'
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = WeatherForm;
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var WeatherMessage = React.createClass({
+		displayName: 'WeatherMessage',
+
+		render: function render() {
+			// get location and temp from the parent component Weather
+			// Note: pull values from this.props not this.states
+			var _props = this.props,
+			    location = _props.location,
+			    temp = _props.temp;
+
+
+			return React.createElement(
+				'h3',
+				null,
+				'The temperature in ',
+				location,
+				' now ',
+				temp
+			);
+		}
+	});
+
+	module.exports = WeatherMessage;
+
+/***/ },
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
 
 	var About = React.createClass({
 		displayName: 'About',
@@ -24962,13 +25063,12 @@
 	module.exports = About;
 
 /***/ },
-/* 220 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var Example = __webpack_require__(220);
 
 	var Example = React.createClass({
 		displayName: 'Example',
