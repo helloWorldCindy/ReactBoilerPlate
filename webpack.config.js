@@ -6,6 +6,12 @@ module.exports = {
 		'script!foundation-sites/dist/js/foundation.min.js',
 		'./app/app.jsx'
 	],
+	stats: {
+		colors: true,
+    modules: true,
+    reasons: true,
+    errorDetails: true
+	},
 	externals: {
 		jquery: 'jQuery'
 	},
@@ -28,6 +34,7 @@ module.exports = {
 			WeatherForm: 'app/components/WeatherForm.jsx',
 			WeatherMessage: 'app/components/WeatherMessage.jsx',
 			About: 'app/components/About.jsx',
+			ErrorModal: 'app/components/ErrorModal.jsx',
 			Example: 'app/components/Example.jsx',
 			openWeatherMap: 'app/api/openWeatherMap.jsx'
 		},
